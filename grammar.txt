@@ -1,0 +1,30 @@
+Prog -> Header FuncDef MainBody
+Id_Type -> int
+Id_Type -> float
+Id_Type -> void
+FuncDef -> epsilon
+FuncDef -> Id_Type id ( FuncArgmt ) { stmt}
+FuncArgmt -> epsilon
+FuncArgmt -> Id_Type id, FuncArgmt
+FuncArgmt -> Id_Type id
+MainBody -> epsilon
+MainBody -> stmt
+stmt -> epsilon
+stmt -> Input_Stmt ; stmt
+stmt -> Output_Stmt ; stmt
+stmt -> IfElse_Stmt
+stmt -> Assign_Stmt ; stmt
+Input_Stmt -> read id
+Output_Stmt -> write id
+Assign_Stmt -> id = expression
+arithop -> +
+arithop -> -
+arithop -> *
+arithop -> /
+arithop -> %
+arithop -> ++
+IfElse_Stmt -> if ( Condition )  stmt else stmt
+Condition -> expression relop expression
+relop -> >
+relop -> <
+relop -> =
