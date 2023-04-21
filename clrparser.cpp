@@ -15,7 +15,7 @@ class Item
 	string left;
 	vector<string> prod;
 	int dot;
-	set<string> lookahead;
+	string lookahead;
 	bool operator <(const Item& b){
 		if(left!=b.left)
         return left<b.left;
@@ -184,7 +184,7 @@ void computeFirst() {
 	}
 	cout<<"Non Terminals are: ";for(auto it : nonterminals) cout<<it<<" "; cout<<"\n\n";
 	cout<<"Terminals are: "; for(auto it : terminals) cout<<it<<" "; cout<<"\n\n";
-	
+	first["$"].insert("$");
 	int cnt = 0;
 	map<string, set<string> > recprod;
 	for(auto prod : productions) {
@@ -254,10 +254,19 @@ void printFirst() {
 set<string> computeLookahead (vector<string> v)
 {
 	set<string> la;
-	int flag=0;
+	int flag=1;
 	for(auto it: v)
 	{
-
+		flag=1;
+		for(auto itt: first[it])
+		{
+			if(itt=="epsilon")
+			{
+				flag=0;
+				continue;
+			}
+			la.insert(itt);
+		}
 		if(flag)
 		break;
 	}
@@ -349,7 +358,16 @@ void createset(set<Item,cmp1> items)
 	{
 		if(ilist[idx].dot==ilist[idx].prod.size())
 		{
-			//check
+			int val;
+			for(val=0;val<rules.size();val++)
+			{
+				if(rules[val].first==ilist[idx].left&&rules[val].second==ilist[idx].prod)
+				break;
+			}
+			if(val==0)
+			parsetable[{curr_set,ilist[idx].lookahead}]="Acc";
+			else
+			parsetable[{curr_set,ilist[idx].lookahead}]="R"+to_string(val+1);
 			idx++;
 			continue;
 		}
@@ -357,18 +375,27 @@ void createset(set<Item,cmp1> items)
 		Item next_set=ilist[idx];
 		next_set.dot++;
 		nextsets[next].insert(next_set);
+		vector<string> end;
+		for(int i=ilist[idx].dot+1;i<ilist[idx].prod.size();i++)
+		{
+			end.push_back(ilist[idx].prod[i]);
+		}
+		end.push_back(ilist[idx].lookahead);
+		set<string> las=computeLookahead(end);
 		for(auto p:productions[next])
 		{
 			Item new_item;
 			new_item.left=next;
 			new_item.prod=p;
 			new_item.dot=0;
-			//check
-			new_item.lookahead={};
-			if(is.find(new_item)!=is.end())
-			continue;
-			is.insert(new_item);
-			ilist.push_back(new_item);
+			for(auto it:las)
+			{
+				new_item.lookahead=it;
+				if(is.find(new_item)!=is.end())
+				continue;
+				is.insert(new_item);
+				ilist.push_back(new_item);
+			}
 		}
 		idx++;
 	}
@@ -397,7 +424,7 @@ void printsets()
 {
 	for(int i=0;i<itemset.size();i++)
 	{
-		cout<<"I"<<i<<endl;
+		cout<<endl<<"I"<<i<<endl;
 		for(auto it:itemset[i])
 		{
 			cout<<it.left<<" -> ";
@@ -409,13 +436,10 @@ void printsets()
 			}
 			if(it.dot==it.prod.size())
 			cout<<".";
+			cout<<" , "<<it.lookahead;
 			cout<<endl;
 		}
 	}
-}
-void buildparsetable()
-{
-
 }
 void printparsetable()
 {
@@ -457,6 +481,7 @@ int main()
     cin>>grammarfile;
     buildprod(grammarfile);
 	printprod();
+	terminals.insert("$");
 	computeFirst();
 	printFirst();
 	computeFollow();
@@ -466,6 +491,7 @@ int main()
 	first.left=startsymbol;
 	first.prod=*productions[startsymbol].begin();
 	first.dot=0;
+	first.lookahead="$";
 	firstset.insert(first);
 	createset(firstset);
 	printsets();
