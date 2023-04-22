@@ -33,7 +33,6 @@ arith_op -> *
 arith_op -> /
 arith_op -> %
 inc_op -> ++
-IfElse_Stmt -> if ( Condition ) { stmts }
 IfElse_Stmt -> if ( Condition ) { stmts } else { stmts }
 Condition -> expression rel_op expression
 rel_op -> >
