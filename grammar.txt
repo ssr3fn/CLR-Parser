@@ -9,7 +9,7 @@ FuncList -> FuncDef FuncList
 FuncDef -> epsilon
 FuncDef -> Id_Type ID ( FuncArgmt ) { stmts } FuncDef
 FuncArgmt -> epsilon
-FuncArgmt -> Id_Type ID, FuncArgmt
+FuncArgmt -> Id_Type ID , FuncArgmt
 FuncArgmt -> Id_Type ID
 MainBody -> epsilon
 MainBody -> int main ( ) { stmts }
