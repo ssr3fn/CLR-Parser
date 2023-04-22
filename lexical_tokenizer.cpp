@@ -127,7 +127,7 @@ void parse(string str, int row) {
         cout << "NUMCONST ";
       }
       else if (isRealNumber(subStr) == true){
-        cout << "FLOATCONST ";
+        cout << "NUMCONST ";
       }
       else if (validIdentifier(subStr) == true &&
                isDelimiter(str[right - 1]) == false){
