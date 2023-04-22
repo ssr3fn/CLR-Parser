@@ -1,15 +1,15 @@
 ---------------------------
 Symbol Table
 ---------------------------
-Name	Type	Size	Scope
-y 	    int	     4	      2
-x	    int	 	 4        2
-z	    float	 4	      2 
-res	    int	     4	      2
+Name	Type	 Size	   Scope
+y 	   int	   4	      2
+x	     int	 	 4        2
+z	     float	 4	      2 
+res	   int	   4	      2
 ---------------------------
 Functions
 ---------------------------
-Name	Type		Scope
-func2	void	     1
-main	int	         2
+Name	 Type		Scope
+func2	 void	    1
+main	 int	    2
 ---------------------------
