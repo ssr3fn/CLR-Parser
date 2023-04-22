@@ -9,7 +9,7 @@ FuncList -> FuncDef FuncList
 FuncDef -> epsilon
 FuncDef -> Id_Type ID ( FuncArgmt ) { stmts }
 FuncArgmt -> epsilon
-FuncArgmt -> Id_Type ID, FuncArgmt
+FuncArgmt -> Id_Type ID , FuncArgmt
 FuncArgmt -> Id_Type ID
 MainDef -> Id_Type main ( FuncArgmt ) { stmts }
 stmts -> epsilon
@@ -17,14 +17,25 @@ stmts -> stmt ; stmts
 stmt -> Input_Stmt
 stmt -> Output_Stmt
 stmt -> Assign_Stmt
-stmt -> IfElse_Stmt
+stmt -> IfElse_Stmt stmt
 stmt -> Return_Stmt
+stmt -> Decl_Stmt
+Decl_Stmt -> Id_Type ID , Decl_Stmt
+Decl_Stmt -> Id_Type ID
+Decl_Stmt -> Id_Type Assign_Stmt
 Input_Stmt -> read ID
 Output_Stmt -> print expression
+Assign_Stmt -> ID = expression , Assign_Stmt
 Assign_Stmt -> ID = expression
-expression -> term arith_op expression
+expression -> expression arith_op expression
 expression -> term inc_op
 expression -> term
+expression -> ( expression )
+expression -> FuncCall
+FuncCall -> ID ( Params )
+Params -> ID , Params
+Params -> ID
+Params -> epsilon
 term -> ID
 term -> NUMCONST
 arith_op -> +
