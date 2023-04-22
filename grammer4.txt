@@ -23,7 +23,7 @@ iterStmt -> while simpleExp do stmt | for ID = iterRange do stmt
 iterRange -> simpleExp to simpleExp | simpleExp to simpleExp by simpleExp
 returnStmt -> return ; | return exp ;
 breakStmt -> break ;
-exp -> mutable = exp | mutable += exp | mutable −= exp | mutable ∗= exp | mutable/= exp | mutable ++ | mutable −− | simpleExp
+exp -> mutable = exp | mutable += exp | mutable −= exp | mutable ∗= exp | mutable /= exp | mutable ++ | mutable −− | simpleExp
 simpleExp -> simpleExp or andExp | andExp
 andExp -> andExp and unaryRelExp | unaryRelExp
 unaryRelExp -> not unaryRelExp | relExp
