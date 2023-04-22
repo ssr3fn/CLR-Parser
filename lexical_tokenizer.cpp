@@ -6,7 +6,7 @@ bool isDelimiter(char ch) {
   if (ch == ' ' || ch == '+' || ch == '-' || ch == '*' || ch == '/' ||
       ch == ',' || ch == ';' || ch == '>' || ch == '<' || ch == '=' ||
       ch == '(' || ch == ')' || ch == '[' || ch == ']' || ch == '{' ||
-      ch == '}' || ch == '\t')
+      ch == '}' || ch == '\t' || ch == '\r')
     return true;
 
   return false;
@@ -95,7 +95,6 @@ bool isRealNumber(string str) {
 }
 
 void parse(string str, int row) {
-
   int left = 0, right = 0;
   int len = str.length();
   while (right <= len && left <= right) {
@@ -107,7 +106,7 @@ void parse(string str, int row) {
         cout << str[right] << " ";
 
       } 
-      else if (str[right] != ' ' && str[right] !='\t') {
+      else if (str[right] != ' ' && str[right] !='\t' && str[right]!='\r') {
         cout << str[right] << " ";
       }
 
@@ -142,12 +141,11 @@ void parse(string str, int row) {
       left = right;
     }
   }
-
 }
 
 int main() {
 
-  ifstream MyReadFile("sample.c");
+  ifstream MyReadFile("sample.txt");
   string myline;
   int row = 0;
  (void*)freopen("tokens.txt","w",stdout);
