@@ -1,10 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-//add lookahead
-//add rules
-//parse tokens
-
 vector<string> grammar;
 map<string, set<vector<string> > > productions;
 map<int, string > getprodleft;
@@ -470,12 +466,102 @@ void printparsetable()
 		cout<<endl;
 	}
 }
-void parsetokens()
+void parsetokens(string filename)
 {
-
+	int len, idx=0;	
+	string str;
+	vector<string> input;
+	ifstream fi;
+	fi.open(filename);
+	if(!fi.is_open()) {
+		cout<<"File not found!\n";
+		return;
+	}
+	while(fi>>str)
+	{
+		input.push_back(str);
+	}
+	input.push_back("$");
+	len=input.size();
+	stack<string> parsestack;
+	parsestack.push("S0");
+	while(true)
+	{
+		cout<<"\n\n";
+		string s=parsestack.top();
+		cout<<"Top of stack: "<<s<<endl;
+		cout<<"Input: ";
+		for(int i=idx;i<len;i++)
+		cout<<input[i]<<" ";
+		cout<<endl;
+		int state=stoi(s.substr(1));
+		string next=parsetable[{state,input[idx]}];
+		cout<<"Parser Action: ";
+		if(next=="")
+		{
+			cout<<"Error"<<endl;
+			break;
+		}
+		if(next=="Acc")
+		{
+			cout<<"Accept"<<endl;
+			cout<<"Program parsed successfully"<<endl;
+			break;
+		}
+		if(next[0]=='S')
+		{
+			int nxt_st=stoi(next.substr(1));
+			parsestack.push(input[idx]);
+			parsestack.push(next);
+			cout<<"Shift and move to state "<<nxt_st<<endl;
+			idx++;
+			continue;
+		}
+		if(next[0]=='R')
+		{
+			int rule=stoi(next.substr(1))-1;
+			int ptr=rules[rule].second.size()-1;
+			while(ptr!=-1)
+			{
+				if(parsestack.empty())
+				{
+					cout<<"Error"<<endl;
+					break;
+				}
+				string tp=parsestack.top();
+				parsestack.pop();
+				if(rules[rule].second[ptr]==tp)
+				ptr--;
+			}
+			if(parsestack.empty())
+			{
+				cout<<"Error"<<endl;
+				break;
+			}
+			cout<<"Reduce "<<rules[rule].first<<" -> ";
+			for(auto it: rules[rule].second)
+			cout<<it<<" ";
+			cout<<endl;
+			string gt=parsestack.top();
+			int st=stoi(gt.substr(1));
+			parsestack.push(rules[rule].first);
+			parsestack.push("S"+parsetable[{st,rules[rule].first}]);
+		}
+	}
+}
+void printrules()
+{
+	for(auto it: rules)
+	{
+		cout<<it.first<<" -> ";
+		for(auto itt:it.second)
+		cout<<itt<<" ";
+		cout<<endl;
+	}
 }
 int main()
 {
+	freopen("checking.txt", "w", stdout);
     string grammarfile,filename;
     cout<<"Enter filename containing grammar: ";
     cin>>grammarfile;
@@ -483,7 +569,7 @@ int main()
 	printprod();
 	terminals.insert("$");
 	computeFirst();
-	printFirst();
+	//printFirst();
 	computeFollow();
 	//printFollow();
 	Item first;
@@ -496,7 +582,9 @@ int main()
 	createset(firstset);
 	printsets();
 	printparsetable();
-	// cout<<"Input the filename which contains tokens to be parsed : ";
-	// cin>>filename;
+	//printrules();
+	cout<<"Input the filename which contains tokens to be parsed : ";
+	cin>>filename;
+	parsetokens(filename);
     return 0;
 }
