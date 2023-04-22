@@ -1,7 +1,7 @@
 program → declList
 declList → declList decl | decl
 decl → varDecl | funDecl
-]varDecl → typeSpec varDeclList ;
+varDecl → typeSpec varDeclList ;
 scopedVarDecl → static typeSpec varDeclList ; | typeSpec varDeclList ;
 varDeclList → varDeclList , varDeclInit | varDeclInit
 varDeclInit → varDeclId | varDeclId : simpleExp
