@@ -1,1 +1,1 @@
-#include < ID > void ID ( int ID , float ID ) { return ( ID + ID ) * NUMCONST ; } int main ( ) { int ID = NUMCONST , ID = NUMCONST ; float ID ; ID read ID ; print ID + ID ; ID if ( ID < ID ) { ID print ID ; } else { ID print ID ; } int ID = ID ( ID , ID ) ; print ID ; ID return NUMCONST ; } 
+#include < ID > void ID ( int ID , float ID ) { return ( ID + ID ) * NUMCONST ; } int main ( ) { int ID = NUMCONST , ID = NUMCONST ; float ID ; ID read ID ; print ID + ID ; if ( ID < ID ) { print ID ; } else { print ID ; } int ID = ID ( ID , ID ) ; print ID ; return NUMCONST ; } 
