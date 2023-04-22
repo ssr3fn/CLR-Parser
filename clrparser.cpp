@@ -1,6 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+//parse tokens
+
 vector<string> grammar;
 map<string, set<vector<string> > > productions;
 map<int, string > getprodleft;
@@ -380,6 +382,16 @@ void createset(set<Item,cmp1> items)
 		set<string> las=computeLookahead(end);
 		for(auto p:productions[next])
 		{
+			if(p.size()==1&&p[0]=="epsilon")
+			{
+				Item new_item=ilist[idx];
+				new_item.dot++;
+				if(is.find(new_item)!=is.end())
+				continue;
+				is.insert(new_item);
+				ilist.push_back(new_item);
+				continue;
+			}
 			Item new_item;
 			new_item.left=next;
 			new_item.prod=p;
@@ -466,6 +478,24 @@ void printparsetable()
 		cout<<endl;
 	}
 }
+void showstack(stack<string> st)
+{
+	stack<string> temp;
+	while(!st.empty())
+	{
+		string tp=st.top();
+		st.pop();
+		temp.push(tp);
+	}
+	cout<<"Stack: ";
+	while(!temp.empty())
+	{
+		string tp=temp.top();
+		temp.pop();
+		cout<<tp<<" ";
+	}
+	cout<<endl;
+}
 void parsetokens(string filename)
 {
 	int len, idx=0;	
@@ -485,11 +515,13 @@ void parsetokens(string filename)
 	len=input.size();
 	stack<string> parsestack;
 	parsestack.push("S0");
+	int act_no=1;
 	while(true)
 	{
 		cout<<"\n\n";
+		cout<<"Action No.: "<<act_no++<<endl;
 		string s=parsestack.top();
-		cout<<"Top of stack: "<<s<<endl;
+		showstack(parsestack);
 		cout<<"Input: ";
 		for(int i=idx;i<len;i++)
 		cout<<input[i]<<" ";
@@ -523,15 +555,33 @@ void parsetokens(string filename)
 			int ptr=rules[rule].second.size()-1;
 			while(ptr!=-1)
 			{
-				if(parsestack.empty())
+				if(parsestack.size()<2)
 				{
 					cout<<"Error"<<endl;
 					break;
 				}
-				string tp=parsestack.top();
 				parsestack.pop();
+				string tp=parsestack.top();
+				while(rules[rule].second[ptr]!=tp)
+				{
+					if(first[rules[rule].second[ptr]].find("epsilon")!=first[rules[rule].second[ptr]].end())
+					{
+						ptr--;
+					}
+					else
+					{
+						cout<<"Error"<<endl;
+						return;
+					}
+				}
+				if(ptr==-1)
+				break;
 				if(rules[rule].second[ptr]==tp)
-				ptr--;
+				{
+					ptr--;
+					parsestack.pop();
+					continue;
+				}
 			}
 			if(parsestack.empty())
 			{
