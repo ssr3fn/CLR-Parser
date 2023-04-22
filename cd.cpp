@@ -73,13 +73,6 @@ void generateSymbolTable(string code) {
     int i = 0;
     int n=code.length();
 
-    // reverse(code.begin(),code.end());
-    // cerr<<code<<endl;
-    // while(!code.empty() and code.back()==' ')
-    // 	code.pop_back();
-    // reverse(code.begin(),code.end());
-    //     cerr<<code<<endl;
-    // cerr<<"mnmnnnnnnnnnnnn"<<endl;
     if(code.length()==0)
     	return;
 
