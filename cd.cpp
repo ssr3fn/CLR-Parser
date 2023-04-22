@@ -73,6 +73,16 @@ void generateSymbolTable(string code) {
     int i = 0;
     int n=code.length();
 
+    // reverse(code.begin(),code.end());
+    // cerr<<code<<endl;
+    // while(!code.empty() and code.back()==' ')
+    // 	code.pop_back();
+    // reverse(code.begin(),code.end());
+    //     cerr<<code<<endl;
+    // cerr<<"mnmnnnnnnnnnnnn"<<endl;
+    if(code.length()==0)
+    	return;
+
     while (i < code.length()) {
         if (code[i] == '{') {
             	int el=*(st.begin());
@@ -89,7 +99,8 @@ void generateSymbolTable(string code) {
              scopes.pop();
         }
 
-        else if (i+2<n and code[i] == 'i' && code[i+1] == 'n' && code[i+2] == 't') {
+        else if (i==0 and i+2<n and code[i] == 'i' && code[i+1] == 'n' && code[i+2] == 't') {
+        	
         	int scope=scopes.top();
             string name = "";
             int j = i+4;
@@ -97,7 +108,7 @@ void generateSymbolTable(string code) {
             	break;
             bool fl=false;
             while (j<n and code[j] != '(') {
-            	if(code[j]==';')
+            	if(code[j]==';' or code[j]=='=')
             	{
             		fl=true;
             		break;
@@ -108,19 +119,20 @@ void generateSymbolTable(string code) {
                 j++;
             }
             //if fl is true..then variable...else function
+            cerr<<name<<endl;
             if(fl)
             symTable.insert(name, "int", 4, scope);
         else
             parseFunction(name, "int", (*st.begin()));
         }
-        else if(i+4<n and code.substr(i,5)=="float")
+        else if(i==0 and i+4<n and code.substr(i,5)=="float")
         {
         	int scope=scopes.top();
         	 string name = "";
             int j = i+6;
         	 bool fl=false;
             while (j<n and code[j] != '(') {
-            	if(code[j]==';')
+            	if(code[j]==';' or code[j]=='=')
             	{
             		fl=true;
             		break;
@@ -136,14 +148,15 @@ void generateSymbolTable(string code) {
             parseFunction(name,"float", (*st.begin()));
 
         }
-        else if(i+3<n and code.substr(i,3)=="void")
+        else if(i==0 and i+3<n and code.substr(i,4)=="void")
         {
+        	
         	int scope=scopes.top();
         	 string name = "";
             int j = i+5;
         	 bool fl=false;
             while (j<n and code[j] != '(') {
-            	if(code[j]==';')
+            	if(code[j]==';' or code[j]=='=')
             	{
             		fl=true;
             		break;
@@ -201,7 +214,14 @@ int main() {
     	st.insert(i);
     string temp;
     while(getline(cin,temp))
-    generateSymbolTable(temp);
+    {
+    	reverse(temp.begin(),temp.end());
+    	while(!temp.empty() and temp.back()=='\t')
+    		temp.pop_back();
+    	reverse(temp.begin(),temp.end());
+
+    	generateSymbolTable(temp);
+    }
    symTable.display();
    func_table.display_func();
     // visiting_scopes(3);
