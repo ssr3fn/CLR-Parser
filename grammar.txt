@@ -1,30 +1,53 @@
 Prog -> Header FuncDef MainBody
+Header -> epsilon
+Header -> #include < ID > Header
 Id_Type -> int
 Id_Type -> float
 Id_Type -> void
+FuncList -> epsilon
+FuncList -> FuncDef FuncList
 FuncDef -> epsilon
-FuncDef -> Id_Type id ( FuncArgmt ) { stmt}
+FuncDef -> Id_Type ID ( FuncArgmt ) { stmts } FuncDef
 FuncArgmt -> epsilon
-FuncArgmt -> Id_Type id, FuncArgmt
-FuncArgmt -> Id_Type id
+FuncArgmt -> Id_Type ID, FuncArgmt
+FuncArgmt -> Id_Type ID
 MainBody -> epsilon
-MainBody -> stmt
-stmt -> epsilon
-stmt -> Input_Stmt ; stmt
-stmt -> Output_Stmt ; stmt
+MainBody -> int main ( ) { stmts }
+stmts -> epsilon
+stmts -> stmt ; stmts
+stmts -> ReturnStmt ;
+stmt -> Input_Stmt
+stmt -> Output_Stmt
 stmt -> IfElse_Stmt
-stmt -> Assign_Stmt ; stmt
-Input_Stmt -> read id
-Output_Stmt -> write id
-Assign_Stmt -> id = expression
-arithop -> +
-arithop -> -
-arithop -> *
-arithop -> /
-arithop -> %
-arithop -> ++
-IfElse_Stmt -> if ( Condition )  stmt else stmt
-Condition -> expression relop expression
-relop -> >
-relop -> <
-relop -> =
+stmt -> ExpStmt
+stmt -> BreakStmt
+ExpStmt -> exp  
+ExpStmt -> epsilon
+exp -> ID = exp 
+exp -> ID *= exp
+exp -> ID += exp
+exp -> ID -= exp
+exp -> ID /= exp
+exp -> ID inc_op
+exp -> expression
+ReturnStmt -> return
+ReturnStmt -> return exp
+BreakStmt -> break
+Input_Stmt -> read ID
+Output_Stmt -> print expression
+expression -> term arith_op expression
+expression -> term inc_op
+expression -> term
+term -> ID
+term -> NUMCONSTANT
+arith_op -> +
+arith_op -> -
+arith_op -> *
+arith_op -> /
+arith_op -> %
+inc_op -> ++
+IfElse_Stmt -> if ( Condition ) { stmts } else { stmts }
+Condition -> expression rel_op expression
+rel_op -> >
+rel_op -> <
+rel_op -> ==
