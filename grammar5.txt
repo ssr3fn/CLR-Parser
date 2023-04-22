@@ -1,32 +1,32 @@
-Prog -> Header FuncDef MainBody
+Prog -> Header FuncDef MainDef
 Header -> epsilon
-Header -> #include <stdio.h>
+Header -> #include < ID > Header
 Id_Type -> int
 Id_Type -> float
 Id_Type -> void
 FuncList -> epsilon
 FuncList -> FuncDef FuncList
 FuncDef -> epsilon
-FuncDef -> Id_Type id ( FuncArgmt ) { stmts }
+FuncDef -> Id_Type ID ( FuncArgmt ) { stmts }
 FuncArgmt -> epsilon
-FuncArgmt -> Id_Type id, FuncArgmt
-FuncArgmt -> Id_Type id
-MainBody -> epsilon
-MainBody -> { stmts }
+FuncArgmt -> Id_Type ID, FuncArgmt
+FuncArgmt -> Id_Type ID
+MainDef -> Id_Type main ( FuncArgmt ) { stmts }
 stmts -> epsilon
 stmts -> stmt ; stmts
 stmt -> Input_Stmt
 stmt -> Output_Stmt
 stmt -> Assign_Stmt
 stmt -> IfElse_Stmt
-Input_Stmt -> read id
+stmt -> Return_Stmt
+Input_Stmt -> read ID
 Output_Stmt -> print expression
-Assign_Stmt -> id = expression
+Assign_Stmt -> ID = expression
 expression -> term arith_op expression
 expression -> term inc_op
 expression -> term
-term -> id
-term -> num
+term -> ID
+term -> NUMCONST
 arith_op -> +
 arith_op -> -
 arith_op -> *
@@ -39,8 +39,4 @@ Condition -> expression rel_op expression
 rel_op -> >
 rel_op -> <
 rel_op -> ==
-
-
-
-
-
+Return_Stmt -> return expression
