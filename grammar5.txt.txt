@@ -1,0 +1,46 @@
+Prog -> Header FuncDef MainBody
+Header -> epsilon
+Header -> #include <stdio.h>
+Id_Type -> int
+Id_Type -> float
+Id_Type -> void
+FuncList -> epsilon
+FuncList -> FuncDef FuncList
+FuncDef -> epsilon
+FuncDef -> Id_Type id ( FuncArgmt ) { stmts }
+FuncArgmt -> epsilon
+FuncArgmt -> Id_Type id, FuncArgmt
+FuncArgmt -> Id_Type id
+MainBody -> epsilon
+MainBody -> { stmts }
+stmts -> epsilon
+stmts -> stmt ; stmts
+stmt -> Input_Stmt
+stmt -> Output_Stmt
+stmt -> Assign_Stmt
+stmt -> IfElse_Stmt
+Input_Stmt -> read id
+Output_Stmt -> print expression
+Assign_Stmt -> id = expression
+expression -> term arith_op expression
+expression -> term inc_op
+expression -> term
+term -> id
+term -> num
+arith_op -> +
+arith_op -> -
+arith_op -> *
+arith_op -> /
+arith_op -> %
+inc_op -> ++
+IfElse_Stmt -> if ( Condition ) { stmts }
+IfElse_Stmt -> if ( Condition ) { stmts } else { stmts }
+Condition -> expression rel_op expression
+rel_op -> >
+rel_op -> <
+rel_op -> ==
+
+
+
+
+
