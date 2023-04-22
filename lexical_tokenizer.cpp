@@ -97,7 +97,7 @@ bool isRealNumber(string str) {
 void parse(string str, int row) {
   int left = 0, right = 0;
   int len = str.length();
-  while (right <= len && left <= right) {
+  while (right < len && left <= right) {
     if (isDelimiter(str[right]) == false){
       right++;
     }
@@ -109,7 +109,7 @@ void parse(string str, int row) {
       else if (str[right] != ' ' && str[right] !='\t' && str[right]!='\r') {
         cout << str[right] << " ";
       }
-
+        
       right++;
       left = right;
     } else if (isDelimiter(str[right]) == true && left != right ||
