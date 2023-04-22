@@ -11,5 +11,5 @@ Functions
 ---------------------------
 Name	 Type		Scope
 func2	 void	    1
-main	 int	    2
+main	 int	 2
 ---------------------------
