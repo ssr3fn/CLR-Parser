@@ -40,7 +40,7 @@ class SymbolTable {
             cout << "---------------------------" << endl;
             cout << "Name\tType\tSize\tScope" << endl;
             for (auto entry : symTable) {
-                cout << entry.name << "\t\t" << entry.type << "\t\t" << entry.size << "\t\t" << entry.scope << endl;
+                cout << entry.name << "\t" << entry.type << "\t" << entry.size << "\t" << entry.scope << endl;
             }
             cout << "---------------------------" << endl;
         }
