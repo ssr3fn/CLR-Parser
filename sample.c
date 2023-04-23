@@ -17,7 +17,7 @@ int main(){
 	else{
 		print x;
 	}
-	int res = func2(y,z);
-	print res;
+	int r = func2(y,z);
+	print r;
 	return 0;
 }
