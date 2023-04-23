@@ -2,10 +2,10 @@
 Symbol Table
 ---------------------------
 Name	Type	Size	Scope
-y	int  	4		2
-x	int  	4		2
-z	float	4		2
-r	int  	4		2
+y	int  	4	2
+x	int  	4	2
+z	float	4	2
+r	int  	4	2
 ---------------------------
 Functions
 ---------------------------
