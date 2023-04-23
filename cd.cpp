@@ -18,11 +18,14 @@ struct SymTableEntry {
     string type;
     int size;
     int scope;
+    
 };
 
 // Symbol table structure
 class SymbolTable {
     public:
+    	//to handle duplicates
+    	set<pair<pair<string,string>,int>> st;
         void insert(string name, string type, int size, int scope) {
             SymTableEntry entry;
             entry.name = name;
@@ -37,7 +40,7 @@ class SymbolTable {
             cout << "---------------------------" << endl;
             cout << "Name\tType\tSize\tScope" << endl;
             for (auto entry : symTable) {
-                cout << entry.name << "\t" << entry.type << "\t" << entry.size << "\t" << entry.scope << endl;
+                cout << entry.name << "\t\t" << entry.type << "\t\t" << entry.size << "\t\t" << entry.scope << endl;
             }
             cout << "---------------------------" << endl;
         }
@@ -46,7 +49,7 @@ class SymbolTable {
             cout << "---------------------------" << endl;
             cout << "Name\tType\t\tScope" << endl;
             for (auto entry : symTable) {
-                cout << entry.name << "\t" << entry.type  << "\t" << entry.scope << endl;
+                cout << entry.name << "\t" << entry.type  << "\t\t" << entry.scope << endl;
             }
             cout << "---------------------------" << endl;
         }
@@ -54,13 +57,14 @@ class SymbolTable {
         vector<SymTableEntry> symTable;
 };
 SymbolTable func_table;
- SymbolTable symTable;
+SymbolTable symTable;
 
 // Function to parse a function definition and generate the symbol table
 void parseFunction(string code, string datatype, int scope) {
     int i = 0;
     int n=code.length();
-   
+
+    if(func_table.st.find({{code,datatype},scope})==func_table.st.end())
     func_table.insert(code,datatype,0,scope);
 
 
@@ -112,11 +116,14 @@ void generateSymbolTable(string code) {
                 j++;
             }
             //if fl is true..then variable...else function
-            cerr<<name<<endl;
-            if(fl)
-            symTable.insert(name, "int", 4, scope);
-        else
-            parseFunction(name, "int", (*st.begin()));
+      
+            if(fl and symTable.st.find({{name,"int  "},scope})==symTable.st.end())
+            {
+            	symTable.insert(name, "int  ", 4, scope);
+            	symTable.st.insert({{name,"int  "},scope});
+            }
+        else if(!fl)
+            parseFunction(name, "int  ", (*st.begin()));
         }
         else if(i==0 and i+4<n and code.substr(i,5)=="float")
         {
@@ -135,9 +142,14 @@ void generateSymbolTable(string code) {
                 }
                 j++;
             }
-        if(fl)
-            symTable.insert(name, "float", 4, scope);
-        else
+            if(scope==3)
+            	cerr<<code;
+        if(fl and symTable.st.find({{name,"float"},scope})==symTable.st.end())
+            {
+            	symTable.insert(name, "float", 4, scope);
+            	symTable.st.insert({{name,"float"},scope});
+            }
+        else if(!fl)
             parseFunction(name,"float", (*st.begin()));
 
         }
