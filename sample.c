@@ -5,7 +5,8 @@ void func2(int s, float y){
 }
 
 int main(){
-	int y = 4,x=5;
+	int y = 4;
+	int x = 5;
 	float z;
 	read z;
 	print x+z;
