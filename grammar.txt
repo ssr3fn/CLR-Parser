@@ -11,6 +11,8 @@ FuncDef -> Id_Type ID ( FuncArgmt ) { stmts } FuncDef
 FuncArgmt -> epsilon
 FuncArgmt -> Id_Type ID , FuncArgmt
 FuncArgmt -> Id_Type ID
+CallArgmt -> expression , CallArgmt
+CallArgmt -> epsilon
 MainBody -> epsilon
 MainBody -> int main ( ) { stmts }
 stmts -> epsilon
@@ -22,7 +24,7 @@ stmt -> IfElse_Stmt
 stmt -> ExpStmt
 stmt -> BreakStmt
 stmt -> Decl
-FunCall -> ID ( FuncArgmt )
+FunCall -> ID ( CallArgmt )
 ExpStmt -> exp  
 ExpStmt -> epsilon
 exp -> ID = exp
