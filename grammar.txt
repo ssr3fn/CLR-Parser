@@ -15,31 +15,40 @@ MainBody -> epsilon
 MainBody -> int main ( ) { stmts }
 stmts -> epsilon
 stmts -> stmt ; stmts
-stmts -> ReturnStmt ;
+stmt -> ReturnStmt
 stmt -> Input_Stmt
 stmt -> Output_Stmt
 stmt -> IfElse_Stmt
 stmt -> ExpStmt
 stmt -> BreakStmt
+stmt -> Decl
+FunCall -> ID ( FuncArgmt )
 ExpStmt -> exp  
 ExpStmt -> epsilon
-exp -> ID = exp 
+exp -> ID = exp
 exp -> ID *= exp
 exp -> ID += exp
 exp -> ID -= exp
 exp -> ID /= exp
 exp -> ID inc_op
 exp -> expression
+expression -> ( expression )
 ReturnStmt -> return
 ReturnStmt -> return exp
 BreakStmt -> break
 Input_Stmt -> read ID
 Output_Stmt -> print expression
 expression -> term arith_op expression
-expression -> term inc_op
+expression -> ID inc_op
+expression -> NUMCONSTANT inc_op
 expression -> term
 term -> ID
 term -> NUMCONSTANT
+term -> FunCall
+Decl -> Id_Type ID decls
+decls -> , Id_Type ID decls
+decls -> = exp decls
+decls -> epsilon 
 arith_op -> +
 arith_op -> -
 arith_op -> *
