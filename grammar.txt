@@ -36,7 +36,7 @@ exp -> ID inc_op
 exp -> expression
 expression -> ( expression )
 ReturnStmt -> return
-ReturnStmt -> return exp
+ReturnStmt -> return expression
 BreakStmt -> break
 Input_Stmt -> read ID
 Output_Stmt -> print expression
