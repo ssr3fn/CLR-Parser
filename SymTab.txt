@@ -5,11 +5,11 @@ Name	Type	Size	Scope
 y	int  	4	2
 x	int  	4	2
 z	float	4	2
-r	int  	4	2
+r	float	4	2
 ---------------------------
 Functions
 ---------------------------
 Name	Type		Scope
-func2	void		1
+func2	float		1
 main	int  		2
 ---------------------------
