@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-void func2(int s, float y){
+float func2(int s, float y){
 	return (s+y)*3;
 }
 
@@ -17,7 +17,7 @@ int main(){
 	else{
 		print x;
 	}
-	int r = func2(y,z);
+	float r = func2(y,z);
 	print r;
 	return 0;
 }
